@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rasly 💖 Ansif</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(180deg, #ffdde1, #ee9ca7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS", cursive;
+    overflow: hidden;
+  }
+
+  .card {
+    background: white;
+    width: 360px;
+    padding: 25px;
+    border-radius: 28px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    animation: pop 0.6s ease;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .names {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: heartbeat 1.5s infinite;
+  }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.05); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.05); }
+  }
+
+  img {
+    width: 240px;
+    border-radius: 22px;
+    margin: 12px 0;
+  }
+
+  h2 {
+    color: #ff4d6d;
+    margin: 10px 0;
+  }
+
+  p {
+    color: #555;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 12px 26px;
+    border-radius: 30px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.2s ease;
+    position: relative;
+  }
+
+  .yes {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  .yes:hover {
+    transform: scale(1.1);
+  }
+
+  .no {
+    background: #ddd;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Background music -->
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<div class="card" id="card">
+
+  <div class="names">💖 Rasly & Ansif 💖</div>
+
+  <img id="gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
+
+  <h2 id="question">Rasly 💕 Will you be Ansif’s Valentine?</h2>
+  <p>You cannot escape this 😌</p>
+
+  <button class="yes" onclick="sayYes()">YES 💖</button>
+  <button class="no" id="noBtn" onclick="sayNo()">NO 🐻</button>
+</div>
+
+<script>
+let index = 0;
+
+const data = [
+  { q: "Rasly… are you sure? 🥺", g: "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" },
+  { q: "Ansif is crying now 😭", g: "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" },
+  { q: "What if there are chocolates? 🍫", g: "https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif" },
+  { q: "And teddy bears too? 🧸", g: "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" },
+  { q: "Pandas are judging you 🐼", g: "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" },
+  { q: "Unlimited hugs from Ansif 🤗", g: "https://media.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif" },
+  { q: "This NO button is evil 😤", g: "https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" },
+  { q: "Rasly pleaseeee ❤️", g: "https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif" },
+  { q: "You can’t escape 😈", g: "https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" },
+  { q: "JUST SAY YES 😭💖", g: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif" }
+];
+
+function sayNo() {
+  index = (index + 1) % data.length;
+  document.getElementById("question").innerText = data[index].q;
+  document.getElementById("gif").src = data[index].g;
+  moveNoButton();
+}
+
+function moveNoButton() {
+  const btn = document.getElementById("noBtn");
+  const x = Math.random() * 220 - 110;
+  const y = Math.random() * 220 - 110;
+  btn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function sayYes() {
+  document.getElementById("card").innerHTML = `
+    <h2>💖 SHE SAID YES 💖</h2>
+    <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif">
+    <p>Rasly said YES to Ansif ❤️</p>
+    <p>Best Valentine’s Day ever 💌</p>
+    <p>🐻 + 🐼 = Forever 💕</p>
+  `;
+  startConfetti();
+}
+
+/* Confetti animation */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let confetti = [];
+
+function startConfetti() {
+  for (let i = 0; i < 250; i++) {
+    confetti.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 2,
+      d: Math.random() * 10
+    });
+  }
+  animateConfetti();
+}
+
+function animateConfetti() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#ff4d6d";
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    p.y += p.d;
+    if (p.y > canvas.height) p.y = 0;
+  });
+  requestAnimationFrame(animateConfetti);
+}
+</script>
+
+</body>
+</html>
